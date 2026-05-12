@@ -18,6 +18,7 @@ VENDOR = ROOT / "vendor"
 OUT = ROOT / "index.html"
 
 TEMPLATE_PDF = ROOT / "010-fillable.pdf"
+FIRMA_IMG = ROOT / "src" / "img" / "firma-location.png"
 
 
 def read(path: Path) -> str:
@@ -38,6 +39,11 @@ def embedded_010_js() -> str:
     )
 
 
+def firma_img_data_uri() -> str:
+    b64 = base64.b64encode(FIRMA_IMG.read_bytes()).decode("ascii")
+    return "data:image/png;base64," + b64
+
+
 def main() -> None:
     for required in [
         SRC / "index.html",
@@ -49,6 +55,7 @@ def main() -> None:
         SRC / "pdf-declaracion.js",
         VENDOR / "pdf-lib.min.js",
         TEMPLATE_PDF,
+        FIRMA_IMG,
     ]:
         if not required.exists():
             raise SystemExit(f"missing required input: {required}")
@@ -56,14 +63,15 @@ def main() -> None:
     html = read(SRC / "index.html")
 
     replacements = {
-        "/*__STYLES__*/":          read(SRC / "styles.css"),
-        "/*__PDFLIB__*/":          read(VENDOR / "pdf-lib.min.js"),
-        "/*__EMBEDDED_010__*/":    embedded_010_js(),
-        "/*__FIELDS_MODEL__*/":    read(SRC / "fields-model.js"),
-        "/*__UPME_DEFAULTS__*/":   read(SRC / "upme-defaults.js"),
-        "/*__PDF_010__*/":         read(SRC / "pdf-010.js"),
-        "/*__PDF_DECLARACION__*/": read(SRC / "pdf-declaracion.js"),
-        "/*__APP__*/":             read(SRC / "app.js"),
+        "/*__STYLES__*/":            read(SRC / "styles.css"),
+        "/*__PDFLIB__*/":            read(VENDOR / "pdf-lib.min.js"),
+        "/*__EMBEDDED_010__*/":      embedded_010_js(),
+        "/*__FIELDS_MODEL__*/":      read(SRC / "fields-model.js"),
+        "/*__UPME_DEFAULTS__*/":     read(SRC / "upme-defaults.js"),
+        "/*__PDF_010__*/":           read(SRC / "pdf-010.js"),
+        "/*__PDF_DECLARACION__*/":   read(SRC / "pdf-declaracion.js"),
+        "/*__APP__*/":               read(SRC / "app.js"),
+        "/*__FIRMA_IMG_DATA_URI__*/": firma_img_data_uri(),
     }
     for marker, content in replacements.items():
         if marker not in html:

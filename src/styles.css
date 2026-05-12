@@ -110,6 +110,24 @@ button.ghost:hover { color: var(--text); background: rgba(0,0,0,0.04); }
 .seccional-note { margin: 8px 0 0; font-size: 12px; color: var(--muted); font-style: italic; }
 .seccional-note:empty { display: none; }
 
+.hover-img { position: relative; text-decoration: underline dotted; text-underline-offset: 2px; cursor: help; }
+.hover-img-preview {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  z-index: 100;
+  width: min(720px, 90vw);
+  height: auto;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+}
+.hover-img:hover .hover-img-preview,
+.hover-img:focus .hover-img-preview,
+.hover-img:focus-within .hover-img-preview { display: block; }
+
 footer { font-size: 12px; color: var(--muted); margin-top: 24px; text-align: center; }
 footer code { font-family: var(--mono); }
 footer .copyright { margin-top: 6px; }
