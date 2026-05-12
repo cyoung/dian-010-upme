@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIAN 010 + Declaración Juramentada — generador local</title>
+<style>/*__STYLES__*/</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <h1>DIAN — Formulario 010 + Declaración Juramentada</h1>
+      <div class="privacy">
+        <strong>100% local.</strong> Ningún dato sale de su navegador. Funciona sin conexión.
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <main id="panels"></main>
+
+  <div class="actions">
+    <button class="primary" id="btn-010">Descargar formulario 010</button>
+    <button class="primary" id="btn-dj">Descargar Declaración Juramentada</button>
+    <button class="ghost" id="btn-clear">Borrar formulario</button>
+    <span class="status" id="status"></span>
+  </div>
+
+  <section class="instructions" aria-labelledby="instr-title">
+    <h2 id="instr-title">Pasos siguientes</h2>
+    <ol>
+      <li>Imprime ambos PDFs.</li>
+      <li>Firma a mano: en la <em>Declaración Juramentada</em> sobre la línea de "Firma", y en las casillas de firma del Formulario 010.</li>
+      <li>Escanea ambos documentos firmados en formato PDF.</li>
+      <li>Adjunta los escaneos junto con: certificado UPME, factura electrónica, certificación bancaria y RUT.</li>
+      <li id="appointment-step" hidden>
+        Agenda una cita en <a href="https://agendamiento.dian.gov.co/" target="_blank" rel="noopener noreferrer">agendamiento.dian.gov.co</a>
+        (<em>Agendar cita → Persona Natural → Videoatención → Devoluciones</em>).
+        Si aparece el error «No se encontraron especialidades...», vuelve a intentarlo los viernes de cada semana (varias veces).
+      </li>
+      <li>
+        Envía el paquete completo al buzón de tu Dirección Seccional: <strong id="seccional-email">(seleccione una Dirección Seccional)</strong>
+        <div id="email-extras" hidden>
+          <p class="email-extras-text">Envía el correo <strong>a la hora exacta de la cita</strong>, con el asunto:</p>
+          <p class="email-subject"><code>&lt;Número de la cita&gt; / Solicitud de devolución / <span id="email-subject-name">[nombre]</span> / <span id="email-subject-nit">[NIT]</span> / Envío No. 001</code></p>
+        </div>
+      </li>
+    </ol>
+    <p id="seccional-email-note" class="seccional-note"></p>
+  </section>
+
+  <footer>
+    <div>Datos persistidos en <code>localStorage</code> bajo la clave <code>dian-form-data</code>. Borra el navegador o usa el botón <em>Borrar formulario</em> para eliminarlos.</div>
+    <div class="copyright">
+      &copy; 2026 Christopher Young &middot;
+      <a href="https://github.com/cyoung/dian-010-upme" target="_blank" rel="noopener noreferrer">github.com/cyoung/dian-010-upme</a>
+    </div>
+  </footer>
+</div>
+
+<script>/*__PDFLIB__*/</script>
+<script>/*__EMBEDDED_010__*/</script>
+<script>/*__FIELDS_MODEL__*/</script>
+<script>/*__UPME_DEFAULTS__*/</script>
+<script>/*__PDF_010__*/</script>
+<script>/*__PDF_DECLARACION__*/</script>
+<script>/*__APP__*/</script>
+</body>
+</html>

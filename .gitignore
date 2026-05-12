@@ -1,0 +1,17 @@
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local test artifacts
+test-*.pdf
+*.json.tmp
+.playwright-mcp/
