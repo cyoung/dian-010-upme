@@ -12,14 +12,14 @@
     "Impuestos de Medellín",
   ]);
 
-  // Colombian currency formatting. Internal state stores the raw number as a
-  // dot-decimal string (e.g., "7380476.19"); the UI displays it as
-  // "7.380.476,19".
-  const COP_FMT = new Intl.NumberFormat("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // Colombian currency formatting. Whole-peso amounts only (no fractional
+  // pesos). Internal state stores the integer string (e.g., "7380476"); the
+  // UI displays it as "7.380.476".
+  const COP_FMT = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 });
   function formatCop(raw) {
     if (raw == null || raw === "") return "";
     const n = Number(String(raw));
-    return Number.isFinite(n) ? COP_FMT.format(n) : String(raw);
+    return Number.isFinite(n) ? COP_FMT.format(Math.round(n)) : String(raw);
   }
   // DIAN check-digit (DV) algorithm for NIT validation.
   // Pad NIT to 15 digits with leading zeros, multiply each digit (right→left)
@@ -45,7 +45,9 @@
       // Colombian: dots are thousands separators, comma is decimal.
       t = t.replace(/\./g, "").replace(",", ".");
     }
-    return t;
+    if (t === "" || t === "-") return "";
+    const n = Number(t);
+    return Number.isFinite(n) ? String(Math.round(n)) : t;
   }
   const state = loadState();
 

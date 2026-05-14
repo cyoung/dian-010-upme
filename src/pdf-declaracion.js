@@ -170,7 +170,7 @@
     if (raw == null || raw === "") return "";
     const n = Number(String(raw).replace(/[^\d.\-]/g, ""));
     if (!Number.isFinite(n)) return String(raw);
-    return "$" + n.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return "$" + Math.round(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
   }
 
   // ---------------------------------------------------------- drawing ctx

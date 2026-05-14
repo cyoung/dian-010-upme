@@ -34,11 +34,11 @@
 
     // Reformat Colombian-currency fields so the PDF widget matches the UI.
     const COP_KEYS = new Set(["49", "59_1", "59_2", "59_3"]);
-    const copFmt = new Intl.NumberFormat("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const copFmt = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 });
     for (const k of COP_KEYS) {
       if (merged[k] != null && merged[k] !== "") {
         const n = Number(String(merged[k]));
-        if (Number.isFinite(n)) merged[k] = copFmt.format(n);
+        if (Number.isFinite(n)) merged[k] = copFmt.format(Math.round(n));
       }
     }
 

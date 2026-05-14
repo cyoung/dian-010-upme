@@ -238,8 +238,9 @@
       {
         id: "firma",
         title: "Firma",
+        hidden: true,
         fields: [
-          { key: "997", label: "997. Fecha expedición", type: "date" },
+          { key: "997", label: "997. Fecha expedición", type: "date", hidden: true },
         ],
       },
     ],
