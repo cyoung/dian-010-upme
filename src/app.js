@@ -41,9 +41,36 @@
   function parseCopToRaw(text) {
     if (text == null || text === "") return "";
     let t = String(text).replace(/[^\d.,\-]/g, "");
-    if (t.includes(",")) {
-      // Colombian: dots are thousands separators, comma is decimal.
-      t = t.replace(/\./g, "").replace(",", ".");
+    if (t === "" || t === "-") return "";
+    const hasDot = t.includes(".");
+    const hasComma = t.includes(",");
+    if (hasDot && hasComma) {
+      // Both present — the separator nearer the end is the decimal point;
+      // the other one is the thousands grouping.
+      if (t.lastIndexOf(",") > t.lastIndexOf(".")) {
+        t = t.replace(/\./g, "").replace(",", ".");      // Spanish: 1.234,56
+      } else {
+        t = t.replace(/,/g, "");                          // US:      1,234.56
+      }
+    } else if (hasComma) {
+      // Only commas. Multiple commas → thousands separators. A single comma
+      // followed by exactly 3 digits also looks like a thousands separator
+      // ("7,380"); otherwise treat as the Spanish decimal mark.
+      const parts = t.split(",");
+      if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3)) {
+        t = t.replace(/,/g, "");
+      } else {
+        t = t.replace(",", ".");
+      }
+    } else if (hasDot) {
+      // Only dots. Multiple dots → thousands separators. A single dot followed
+      // by exactly 3 digits is the Spanish thousands grouping ("7.380"); a dot
+      // followed by 1–2 digits (or 4+) is a decimal point and we let Number()
+      // parse it normally so it can be rounded to whole pesos.
+      const parts = t.split(".");
+      if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3)) {
+        t = t.replace(/\./g, "");
+      }
     }
     if (t === "" || t === "-") return "";
     const n = Number(t);

@@ -465,8 +465,9 @@ footer a:hover { color: var(--accent); }
       {
         id: "firma",
         title: "Firma",
+        hidden: true,
         fields: [
-          { key: "997", label: "997. Fecha expedición", type: "date" },
+          { key: "997", label: "997. Fecha expedición", type: "date", hidden: true },
         ],
       },
     ],
@@ -762,11 +763,11 @@ footer a:hover { color: var(--accent); }
 
     // Reformat Colombian-currency fields so the PDF widget matches the UI.
     const COP_KEYS = new Set(["49", "59_1", "59_2", "59_3"]);
-    const copFmt = new Intl.NumberFormat("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const copFmt = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 });
     for (const k of COP_KEYS) {
       if (merged[k] != null && merged[k] !== "") {
         const n = Number(String(merged[k]));
-        if (Number.isFinite(n)) merged[k] = copFmt.format(n);
+        if (Number.isFinite(n)) merged[k] = copFmt.format(Math.round(n));
       }
     }
 
@@ -977,7 +978,7 @@ footer a:hover { color: var(--accent); }
     if (raw == null || raw === "") return "";
     const n = Number(String(raw).replace(/[^\d.\-]/g, ""));
     if (!Number.isFinite(n)) return String(raw);
-    return "$" + n.toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return "$" + Math.round(n).toLocaleString("es-CO", { maximumFractionDigits: 0 });
   }
 
   // ---------------------------------------------------------- drawing ctx
@@ -1140,14 +1141,14 @@ footer a:hover { color: var(--accent); }
     "Impuestos de Medellín",
   ]);
 
-  // Colombian currency formatting. Internal state stores the raw number as a
-  // dot-decimal string (e.g., "7380476.19"); the UI displays it as
-  // "7.380.476,19".
-  const COP_FMT = new Intl.NumberFormat("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // Colombian currency formatting. Whole-peso amounts only (no fractional
+  // pesos). Internal state stores the integer string (e.g., "7380476"); the
+  // UI displays it as "7.380.476".
+  const COP_FMT = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 });
   function formatCop(raw) {
     if (raw == null || raw === "") return "";
     const n = Number(String(raw));
-    return Number.isFinite(n) ? COP_FMT.format(n) : String(raw);
+    return Number.isFinite(n) ? COP_FMT.format(Math.round(n)) : String(raw);
   }
   // DIAN check-digit (DV) algorithm for NIT validation.
   // Pad NIT to 15 digits with leading zeros, multiply each digit (right→left)
@@ -1169,11 +1170,40 @@ footer a:hover { color: var(--accent); }
   function parseCopToRaw(text) {
     if (text == null || text === "") return "";
     let t = String(text).replace(/[^\d.,\-]/g, "");
-    if (t.includes(",")) {
-      // Colombian: dots are thousands separators, comma is decimal.
-      t = t.replace(/\./g, "").replace(",", ".");
+    if (t === "" || t === "-") return "";
+    const hasDot = t.includes(".");
+    const hasComma = t.includes(",");
+    if (hasDot && hasComma) {
+      // Both present — the separator nearer the end is the decimal point;
+      // the other one is the thousands grouping.
+      if (t.lastIndexOf(",") > t.lastIndexOf(".")) {
+        t = t.replace(/\./g, "").replace(",", ".");      // Spanish: 1.234,56
+      } else {
+        t = t.replace(/,/g, "");                          // US:      1,234.56
+      }
+    } else if (hasComma) {
+      // Only commas. Multiple commas → thousands separators. A single comma
+      // followed by exactly 3 digits also looks like a thousands separator
+      // ("7,380"); otherwise treat as the Spanish decimal mark.
+      const parts = t.split(",");
+      if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3)) {
+        t = t.replace(/,/g, "");
+      } else {
+        t = t.replace(",", ".");
+      }
+    } else if (hasDot) {
+      // Only dots. Multiple dots → thousands separators. A single dot followed
+      // by exactly 3 digits is the Spanish thousands grouping ("7.380"); a dot
+      // followed by 1–2 digits (or 4+) is a decimal point and we let Number()
+      // parse it normally so it can be rounded to whole pesos.
+      const parts = t.split(".");
+      if (parts.length > 2 || (parts.length === 2 && parts[1].length === 3)) {
+        t = t.replace(/\./g, "");
+      }
     }
-    return t;
+    if (t === "" || t === "-") return "";
+    const n = Number(t);
+    return Number.isFinite(n) ? String(Math.round(n)) : t;
   }
   const state = loadState();
 
