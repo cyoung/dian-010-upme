@@ -89,7 +89,6 @@
       `Declaro que la información aquí consignada es cierta y verificable, y que entiendo las ` +
       `consecuencias legales derivadas de faltar a la verdad en una declaración rendida bajo la ` +
       `gravedad de juramento.`);
-    gap(ctx, 14);
 
     drawPara(ctx,
       `En constancia, se firma en **${v.ciudadDomicilio}**, a los **${v.firmaDia}** días del mes de ` +
