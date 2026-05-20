@@ -485,10 +485,13 @@ footer a:hover { color: var(--accent); }
         { key: `51_${n}_cod`, label: "Cód. (51)", type: "text", short: true, hidden: true },
         { key: `52_${n}`,     label: "52. Año gravable", type: "text", short: true,
           derived: (s) => s[`58_${n}_yyyy`] || "" },
-        { key: `53_${n}`,     label: "53. Período (bimestre)", type: "text", short: true,
+        { key: `53_${n}`,     label: "53. Período (cuatrimestre)", type: "text", short: true,
+          // Concepto 6 (Pago de lo no debido): instructivo dice "registre el
+          // periodo del documento objeto de la solicitud". DIAN trata la factura
+          // como cuatrimestre: 1=Ene-Abr, 2=May-Ago, 3=Sep-Dic.
           derived: (s) => {
             const mm = parseInt(s[`58_${n}_mm`], 10);
-            return Number.isFinite(mm) ? String(Math.ceil(mm / 2)) : "";
+            return Number.isFinite(mm) ? String(Math.ceil(mm / 4)) : "";
           } },
         { key: `54_${n}`,     label: "54. No. documento o acto administrativo", type: "text", hidden: true },
         { key: `55_${n}`,     label: "55. Número de factura de compra", type: "text" },
@@ -692,12 +695,12 @@ footer a:hover { color: var(--accent); }
     "45_cod":    "31",                                 // Cód. tipo doc titular del saldo (NIT=31)
     "50":        "Beneficio Tributario",               // Tipo obligación titular saldo
     "51_1":      "Pago de lo no debido - Otros UPME",  // Concepto saldo, fila 1
-    "56_1":      "Otros",                              // Descripción doc reconocimiento, fila 1
+    "56_1":      "",                                   // Descripción doc reconocimiento, fila 1
     "57_1":      "Factura de compra",                  // Nombre doc reconocimiento, fila 1
     "60_1":      "NIT",                                // Tipo doc responsable, fila 1 (always NIT for UPME)
     "60_1_cod":  "31",                                 // Cód. tipo doc responsable, fila 1 (NIT=31)
-    "1002":      "31",                                 // Tipo doc del suscribe (NIT code, not text)
-    "1005":      "18",                                 // Cód. representación del suscribe
+    "1002":      "NIT",                                // Tipo doc del suscribe
+    "1005":      "",                                   // Cód. representación del suscribe
   };
 
   // Human-readable labels for the disabled inputs (so users see what's locked
@@ -764,6 +767,11 @@ footer a:hover { color: var(--accent); }
 
     // Merge UPME defaults — defaults always win for keys they cover.
     const merged = Object.assign({}, state, window.UPME_DEFAULTS || {});
+
+    // Page-suffix mirrors are skipped for any tab listed in UPME_HIDDEN_TABS,
+    // so a hidden page is rendered fully blank (no carried-over header fields).
+    const hiddenTabs = window.UPME_HIDDEN_TABS || new Set();
+    const mirrorSuffixes = ["_p2", "_p3"].filter((s) => !hiddenTabs.has(s.slice(1)));
 
     // Reformat Colombian-currency fields so the PDF widget matches the UI.
     const COP_KEYS = new Set(["49", "59_1", "59_2", "59_3"]);

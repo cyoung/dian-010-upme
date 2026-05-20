@@ -20,12 +20,12 @@
     "45_cod":    "31",                                 // Cód. tipo doc titular del saldo (NIT=31)
     "50":        "Beneficio Tributario",               // Tipo obligación titular saldo
     "51_1":      "Pago de lo no debido - Otros UPME",  // Concepto saldo, fila 1
-    "56_1":      "Otros",                              // Descripción doc reconocimiento, fila 1
+    "56_1":      "",                                   // Descripción doc reconocimiento, fila 1
     "57_1":      "Factura de compra",                  // Nombre doc reconocimiento, fila 1
     "60_1":      "NIT",                                // Tipo doc responsable, fila 1 (always NIT for UPME)
     "60_1_cod":  "31",                                 // Cód. tipo doc responsable, fila 1 (NIT=31)
-    "1002":      "31",                                 // Tipo doc del suscribe (NIT code, not text)
-    "1005":      "18",                                 // Cód. representación del suscribe
+    "1002":      "NIT",                                // Tipo doc del suscribe
+    "1005":      "",                                   // Cód. representación del suscribe
   };
 
   // Human-readable labels for the disabled inputs (so users see what's locked

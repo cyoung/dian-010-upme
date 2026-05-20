@@ -258,10 +258,13 @@
         { key: `51_${n}_cod`, label: "Cód. (51)", type: "text", short: true, hidden: true },
         { key: `52_${n}`,     label: "52. Año gravable", type: "text", short: true,
           derived: (s) => s[`58_${n}_yyyy`] || "" },
-        { key: `53_${n}`,     label: "53. Período (bimestre)", type: "text", short: true,
+        { key: `53_${n}`,     label: "53. Período (cuatrimestre)", type: "text", short: true,
+          // Concepto 6 (Pago de lo no debido): instructivo dice "registre el
+          // periodo del documento objeto de la solicitud". DIAN trata la factura
+          // como cuatrimestre: 1=Ene-Abr, 2=May-Ago, 3=Sep-Dic.
           derived: (s) => {
             const mm = parseInt(s[`58_${n}_mm`], 10);
-            return Number.isFinite(mm) ? String(Math.ceil(mm / 2)) : "";
+            return Number.isFinite(mm) ? String(Math.ceil(mm / 4)) : "";
           } },
         { key: `54_${n}`,     label: "54. No. documento o acto administrativo", type: "text", hidden: true },
         { key: `55_${n}`,     label: "55. Número de factura de compra", type: "text" },

@@ -32,6 +32,11 @@
     // Merge UPME defaults — defaults always win for keys they cover.
     const merged = Object.assign({}, state, window.UPME_DEFAULTS || {});
 
+    // Page-suffix mirrors are skipped for any tab listed in UPME_HIDDEN_TABS,
+    // so a hidden page is rendered fully blank (no carried-over header fields).
+    const hiddenTabs = window.UPME_HIDDEN_TABS || new Set();
+    const mirrorSuffixes = ["_p2", "_p3"].filter((s) => !hiddenTabs.has(s.slice(1)));
+
     // Reformat Colombian-currency fields so the PDF widget matches the UI.
     const COP_KEYS = new Set(["49", "59_1", "59_2", "59_3"]);
     const copFmt = new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 });
@@ -59,7 +64,7 @@
       // Mirror header fields onto _p2 / _p3 counterparts.
       const base = key.split("_")[0];
       if (headerFields.has(base) && !key.includes("_p")) {
-        for (const suf of ["_p2", "_p3"]) {
+        for (const suf of mirrorSuffixes) {
           setText("f_" + key + suf, rawValue);
         }
       }
