@@ -800,7 +800,7 @@ footer a:hover { color: var(--accent); }
       // Mirror header fields onto _p2 / _p3 counterparts.
       const base = key.split("_")[0];
       if (headerFields.has(base) && !key.includes("_p")) {
-        for (const suf of ["_p2", "_p3"]) {
+        for (const suf of mirrorSuffixes) {
           setText("f_" + key + suf, rawValue);
         }
       }
