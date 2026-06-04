@@ -11,16 +11,23 @@
   "use strict";
 
   // Field defaults — keys match 010 widget names (without the f_ prefix).
-  // Values are baked into the generated 010 PDF every time.
+  // Values are baked into the generated 010 PDF every time and are NOT
+  // presented to the user (the corresponding model fields are hidden).
+  //
+  // Source note — fields 40, 50, 53 and 56 below were provided by Daniel Páez,
+  // who obtained them in an appointment with a DIAN official who states they
+  // run the nationwide training program for this (UPME EV IVA refund) process.
   const UPME_DEFAULTS = {
     "2":         "6",                                  // Concepto = 6 (Pago de lo no debido)
     "20":        "31",                                 // Tipo doc del solicitante = NIT
+    "40":        "Abono a cuenta",                     // Forma de pago (DIAN official via Daniel Páez)
     "44":        "A solicitud de parte",               // Tipo de solicitud (sentence case per DIAN example)
     "45":        "NIT",                                // Tipo doc titular del saldo (text per DIAN example)
     "45_cod":    "31",                                 // Cód. tipo doc titular del saldo (NIT=31)
-    "50":        "Beneficio Tributario",               // Tipo obligación titular saldo
+    "50":        "IVA UPME",                           // Tipo obligación titular saldo (DIAN official via Daniel Páez)
     "51_1":      "Pago de lo no debido - Otros UPME",  // Concepto saldo, fila 1
-    "56_1":      "",                                   // Descripción doc reconocimiento, fila 1
+    "53_1":      "1",                                  // Período — static for persona natural (DIAN official via Daniel Páez)
+    "56_1":      "Factura electrónica",                // Descripción doc reconocimiento, fila 1 (DIAN official via Daniel Páez)
     "57_1":      "Factura de compra",                  // Nombre doc reconocimiento, fila 1
     "60_1":      "NIT",                                // Tipo doc responsable, fila 1 (always NIT for UPME)
     "60_1_cod":  "31",                                 // Cód. tipo doc responsable, fila 1 (NIT=31)

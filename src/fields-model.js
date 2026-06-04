@@ -258,17 +258,13 @@
         { key: `51_${n}_cod`, label: "Cód. (51)", type: "text", short: true, hidden: true },
         { key: `52_${n}`,     label: "52. Año gravable", type: "text", short: true,
           derived: (s) => s[`58_${n}_yyyy`] || "" },
-        { key: `53_${n}`,     label: "53. Período (cuatrimestre)", type: "text", short: true,
-          // Concepto 6 (Pago de lo no debido): instructivo dice "registre el
-          // periodo del documento objeto de la solicitud". DIAN trata la factura
-          // como cuatrimestre: 1=Ene-Abr, 2=May-Ago, 3=Sep-Dic.
-          derived: (s) => {
-            const mm = parseInt(s[`58_${n}_mm`], 10);
-            return Number.isFinite(mm) ? String(Math.ceil(mm / 4)) : "";
-          } },
+        // Período: static "1" for persona natural (set via UPME_DEFAULTS,
+        // not presented to the user). Per DIAN guidance (Daniel Páez / DIAN
+        // training official), it's fixed, not derived from the invoice month.
+        { key: `53_${n}`,     label: "53. Período", type: "text", short: true, hidden: true },
         { key: `54_${n}`,     label: "54. No. documento o acto administrativo", type: "text", hidden: true },
         { key: `55_${n}`,     label: "55. Número de factura de compra", type: "text" },
-        { key: `56_${n}`,     label: "56. Descripción documento de reconocimiento", type: "text" },
+        { key: `56_${n}`,     label: "56. Descripción documento de reconocimiento", type: "text", hidden: true },
         { key: `56_${n}_cod`, label: "Cód. (56)", type: "text", short: true, hidden: true },
         { key: `57_${n}`,     label: "57. Nombre del documento de reconocimiento", type: "text" },
         { key: `57_${n}_cod`, label: "Cód. (57)", type: "text", short: true, hidden: true },
@@ -323,7 +319,7 @@
           { key: "48", label: "48. Nombres y/o razón social", type: "text",
             derived: (s) => [s["9"], s["10"], s["7"], s["8"]].filter(Boolean).join(" ") },
           { key: "49", label: "49. Valor solicitado total $", type: "text", format: "cop" },
-          { key: "50", label: "50. Tipo obligación", type: "text" },
+          { key: "50", label: "50. Tipo obligación", type: "text", hidden: true },
           { key: "50_cod", label: "Cód. (50)", type: "text", short: true, hidden: true },
         ],
       },
