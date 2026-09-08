@@ -1,0 +1,248 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formulario 010 actualizado — generador local</title>
+<style>
+  :root { --verde:#0B3D2E; --borde:#cbd5e1; --gris:#64748b; }
+  * { box-sizing:border-box }
+  body { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; max-width:900px; margin:0 auto;
+         padding:24px 18px 60px; color:#13251D; line-height:1.55 }
+  h1 { font-size:22px; margin:0 0 4px }
+  h2 { font-size:15px; margin:26px 0 10px; padding-bottom:5px; border-bottom:2px solid #eef0f5 }
+  p.sub { color:var(--gris); margin:0 0 18px; font-size:14px }
+  .aviso { background:#f0fdf4; border:1px solid #bbf7d0; color:#065f46; border-radius:10px;
+           padding:11px 14px; font-size:13.5px; margin:0 0 20px }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px }
+  label { display:block; font-size:12.5px; font-weight:600; color:#334155; margin-bottom:3px }
+  label span { font-weight:400; color:var(--gris) }
+  input, select { width:100%; padding:8px 10px; border:1px solid var(--borde); border-radius:8px;
+                  font-size:14px; font-family:inherit; background:#fff }
+  input:focus, select:focus { outline:2px solid #0B3D2E33; border-color:var(--verde) }
+  .acciones { position:sticky; bottom:0; background:#fff; border-top:1px solid #eef0f5;
+              padding:14px 0 4px; margin-top:26px; display:flex; gap:10px; flex-wrap:wrap }
+  button { padding:11px 20px; border-radius:9px; border:0; font-size:14.5px; font-weight:700; cursor:pointer }
+  .primary { background:var(--verde); color:#fff }
+  .sec { background:#fff; color:#334155; border:1px solid var(--borde) }
+  #msg { font-size:13.5px; margin:12px 0 0; min-height:20px }
+  footer { margin-top:34px; font-size:12.5px; color:var(--gris); border-top:1px solid #eef0f5; padding-top:14px }
+  code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:12.5px }
+</style>
+
+<h1>Formulario 010 — versión actualizada</h1>
+<p class="sub">Rellena el formulario que la DIAN publicó en 2026, con las correcciones que evitan las inadmisiones más comunes.</p>
+
+<div class="aviso">
+  <b>El PDF se arma en tu propio equipo.</b> No hay servidor detrás ni se envía nada a ninguna parte.
+  Lo que escribes queda guardado aquí para que no tengas que teclearlo otra vez.
+</div>
+
+<h2>Identificación (casillas 5 a 12)</h2>
+<div class="grid">
+  <div><label>Número de identificación <span>· casilla 5</span></label><input id="ident" inputmode="numeric"></div>
+  <div><label>DV <span>· casilla 6</span></label><input id="dv" inputmode="numeric" maxlength="1"></div>
+  <div><label>Primer apellido <span>· casilla 7</span></label><input id="ape1"></div>
+  <div><label>Segundo apellido <span>· casilla 8</span></label><input id="ape2"></div>
+  <div><label>Primer nombre <span>· casilla 9</span></label><input id="nom1"></div>
+  <div><label>Otros nombres <span>· casilla 10</span></label><input id="nom2"></div>
+</div>
+
+<h2>Ubicación y contacto (casillas 12 a 28)</h2>
+<div class="grid">
+  <div style="grid-column:1/-1"><label>Dirección seccional <span>· casilla 12 — el código se pone solo</span></label>
+    <select id="seccional"><option value="">(elige tu seccional)</option>
+        <option value="Dirección Seccional de Impuestos de Grandes Contribuyentes" data-cod="31">Dirección Seccional de Impuestos de Grandes Contribuyentes</option>
+        <option value="Dirección Seccional de Impuestos de Bogotá" data-cod="32">Dirección Seccional de Impuestos de Bogotá</option>
+        <option value="Dirección Seccional de Impuestos de Medellín" data-cod="11">Dirección Seccional de Impuestos de Medellín</option>
+        <option value="Dirección Seccional de Impuestos de Cali" data-cod="05">Dirección Seccional de Impuestos de Cali</option>
+        <option value="Dirección Seccional de Impuestos de Barranquilla" data-cod="02">Dirección Seccional de Impuestos de Barranquilla</option>
+        <option value="Dirección Seccional de Impuestos de Cartagena" data-cod="06">Dirección Seccional de Impuestos de Cartagena</option>
+        <option value="Dirección Seccional de Impuestos de Cúcuta" data-cod="07">Dirección Seccional de Impuestos de Cúcuta</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Armenia" data-cod="01">Dirección Seccional de Impuestos y Aduanas de Armenia</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Arauca" data-cod="34">Dirección Seccional de Impuestos y Aduanas de Arauca</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Barrancabermeja" data-cod="29">Dirección Seccional de Impuestos y Aduanas de Barrancabermeja</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Bucaramanga" data-cod="04">Dirección Seccional de Impuestos y Aduanas de Bucaramanga</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Buenaventura" data-cod="35">Dirección Seccional de Impuestos y Aduanas de Buenaventura</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Florencia" data-cod="28">Dirección Seccional de Impuestos y Aduanas de Florencia</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Girardot" data-cod="08">Dirección Seccional de Impuestos y Aduanas de Girardot</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Ibagué" data-cod="09">Dirección Seccional de Impuestos y Aduanas de Ibagué</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Leticia" data-cod="38">Dirección Seccional de Impuestos y Aduanas de Leticia</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Manizales" data-cod="10">Dirección Seccional de Impuestos y Aduanas de Manizales</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Montería" data-cod="12">Dirección Seccional de Impuestos y Aduanas de Montería</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Neiva" data-cod="13">Dirección Seccional de Impuestos y Aduanas de Neiva</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Palmira" data-cod="15">Dirección Seccional de Impuestos y Aduanas de Palmira</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Pasto" data-cod="14">Dirección Seccional de Impuestos y Aduanas de Pasto</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Pereira" data-cod="16">Dirección Seccional de Impuestos y Aduanas de Pereira</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Popayán" data-cod="17">Dirección Seccional de Impuestos y Aduanas de Popayán</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Quibdó" data-cod="18">Dirección Seccional de Impuestos y Aduanas de Quibdó</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Riohacha" data-cod="25">Dirección Seccional de Impuestos y Aduanas de Riohacha</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de San Andrés" data-cod="27">Dirección Seccional de Impuestos y Aduanas de San Andrés</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Santa Marta" data-cod="19">Dirección Seccional de Impuestos y Aduanas de Santa Marta</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Sincelejo" data-cod="23">Dirección Seccional de Impuestos y Aduanas de Sincelejo</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Sogamoso" data-cod="26">Dirección Seccional de Impuestos y Aduanas de Sogamoso</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Tuluá" data-cod="21">Dirección Seccional de Impuestos y Aduanas de Tuluá</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Tunja" data-cod="20">Dirección Seccional de Impuestos y Aduanas de Tunja</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Valledupar" data-cod="24">Dirección Seccional de Impuestos y Aduanas de Valledupar</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Villavicencio" data-cod="22">Dirección Seccional de Impuestos y Aduanas de Villavicencio</option>
+        <option value="Dirección Seccional de Impuestos y Aduanas de Yopal" data-cod="44">Dirección Seccional de Impuestos y Aduanas de Yopal</option>
+    </select></div>
+  <div style="grid-column:1/-1"><label>Correo electrónico <span>· el mismo del RUT</span></label><input id="correo" type="email"></div>
+  <div style="grid-column:1/-1"><label>Dirección <span>· casilla 24, igual que en el RUT</span></label><input id="direccion"></div>
+  <div><label>Teléfono <span>· casilla 25</span></label><input id="telefono" inputmode="tel"></div>
+  <div><label>País <span>· casilla 26</span></label><input id="pais" value="COLOMBIA"></div>
+  <div><label>Departamento <span>· casilla 27</span></label><input id="depto"></div>
+  <div><label>Código del departamento <span>· cópialo del RUT</span></label><input id="deptoCod" inputmode="numeric" maxlength="2"></div>
+  <div><label>Ciudad / municipio <span>· casilla 28</span></label><input id="ciudad"></div>
+  <div><label>Código del municipio <span>· cópialo del RUT</span></label><input id="ciudadCod" inputmode="numeric" maxlength="3"></div>
+</div>
+
+<h2>Devolución y cuenta bancaria</h2>
+<div class="grid">
+  <div><label>Entidad financiera</label><input id="banco"></div>
+  <div><label>Número de cuenta</label><input id="cuenta" inputmode="numeric"></div>
+  <div><label>Tipo de cuenta</label><select id="tipoCuenta">
+    <option value="Ahorros">Ahorros</option><option value="Corriente">Corriente</option></select></div>
+</div>
+
+<h2>Factura e IVA</h2>
+<div class="grid">
+  <div><label>Número de factura <span>· con prefijo</span></label><input id="factura"></div>
+  <div><label>Fecha de la factura <span>· casilla 58</span></label><input id="fechaFactura" type="date"></div>
+  <div><label>IVA a devolver <span>· solo el IVA, no el total</span></label><input id="valorIva" inputmode="numeric"></div>
+  <div><label>Año gravable <span>· se pone solo con la fecha</span></label><input id="anioGrav" inputmode="numeric" maxlength="4"></div>
+</div>
+
+<div class="acciones">
+  <button class="primary" id="btnGen">Descargar formulario 010</button>
+  <button class="sec" id="btnBorrar">Empezar de cero</button>
+</div>
+<p id="msg"></p>
+
+<footer>
+  <p><b>Qué necesitas para que funcione:</b> el archivo <code>form010_nuevo.pdf</code> —el formulario en blanco
+  descargado de la DIAN— en esta misma carpeta.</p>
+  <p><b>Después de descargarlo:</b> imprímelo, fírmalo a mano en la casilla de firma, escanéalo y envíalo con el
+  certificado UPME, la factura, la certificación bancaria y el RUT al buzón de tu seccional.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+(function(){
+  var CAMPOS = ["ident","dv","ape1","ape2","nom1","nom2","seccional","correo","direccion","telefono",
+                "pais","depto","deptoCod","ciudad","ciudadCod","banco","cuenta","tipoCuenta",
+                "factura","fechaFactura","valorIva","anioGrav"];
+  var $ = function(id){ return document.getElementById(id); };
+  var v = function(id){ var e=$(id); return e ? String(e.value||"").trim() : ""; };
+  var msg = function(t, err){ var m=$("msg"); m.textContent=t; m.style.color = err ? "#b91c1c" : "#065f46"; };
+
+  // Se guarda en el navegador para no reescribirlo todo si se cierra la pestaña.
+  function guardar(){ var d={}; CAMPOS.forEach(function(k){ d[k]=v(k); });
+    try{ localStorage.setItem("ivauto010", JSON.stringify(d)); }catch(e){} }
+  function cargar(){ try{ var d=JSON.parse(localStorage.getItem("ivauto010")||"{}");
+    CAMPOS.forEach(function(k){ if($(k) && d[k]) $(k).value=d[k]; }); }catch(e){} }
+  CAMPOS.forEach(function(k){ var e=$(k); if(e){ e.addEventListener("input",guardar); e.addEventListener("change",guardar); } });
+
+  // El año gravable sale de la fecha de la factura: es el año en que se compró el vehículo.
+  $("fechaFactura").addEventListener("change", function(){
+    if(v("fechaFactura") && !v("anioGrav")) $("anioGrav").value = v("fechaFactura").slice(0,4);
+    guardar();
+  });
+
+  // ── Utilidades ──────────────────────────────────────────────────────────
+  // El PDF de la DIAN usa fuentes estándar, que no llevan tildes ni la Ñ: si se escriben
+  // tal cual, pdf-lib falla al guardar. Se transliteran.
+  var MAPA = {"á":"a","é":"e","í":"i","ó":"o","ú":"u","ü":"u","ñ":"n","Á":"A","É":"E","Í":"I",
+              "Ó":"O","Ú":"U","Ü":"U","Ñ":"N","º":"","°":"","–":"-","—":"-","’":"'","‘":"'","“":'"',"”":'"'};
+  function sinTildes(s){ return String(s==null?"":s).replace(/[^\x00-\x7F]/g, function(c){ return MAPA[c]!==undefined ? MAPA[c] : ""; }); }
+  function soloNum(s){ return String(s||"").replace(/[^\d]/g,""); }
+  function milesCOP(s){ var n=soloNum(s); return n ? n.replace(/\B(?=(\d{3})+(?!\d))/g,".") : ""; }
+  function parteFecha(i){ var p=v("fechaFactura").split("-"); return p.length===3 ? p[i] : ""; }
+  function codSeccional(){ var s=$("seccional"); var o=s.options[s.selectedIndex]; return o ? (o.getAttribute("data-cod")||"") : ""; }
+  var may = function(id){ return v(id).toUpperCase(); };
+
+  $("btnBorrar").addEventListener("click", function(){
+    if(!confirm("¿Vaciar todos los campos y empezar de cero?")) return;
+    try{ localStorage.removeItem("ivauto010"); }catch(e){}
+    CAMPOS.forEach(function(k){ if($(k)) $(k).value = (k==="pais" ? "COLOMBIA" : (k==="tipoCuenta" ? "Ahorros" : "")); });
+    msg("Campos vacíos.");
+  });
+
+  $("btnGen").addEventListener("click", async function(){
+    var req = [["ident","Número de identificación"],["dv","DV"],["seccional","Dirección seccional"],
+               ["correo","Correo electrónico"],["direccion","Dirección"],["telefono","Teléfono"],
+               ["banco","Entidad financiera"],["cuenta","Número de cuenta"],["factura","Número de factura"],
+               ["fechaFactura","Fecha de la factura"],["valorIva","IVA a devolver"],["anioGrav","Año gravable"]];
+    var falta = req.filter(function(r){ return !v(r[0]); }).map(function(r){ return r[1]; });
+    if(!v("ape1") && !v("nom1")) falta.push("Nombres y apellidos");
+    if(falta.length){ msg("Faltan campos: " + falta.join(", "), true); return; }
+
+    msg("Generando…");
+    try{
+      var resp = await fetch("form010_nuevo.pdf");
+      if(!resp.ok) throw new Error("No se encontró form010_nuevo.pdf en esta carpeta");
+      var doc  = await PDFLib.PDFDocument.load(new Uint8Array(await resp.arrayBuffer()));
+      var font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+      var pgs  = doc.getPages(), col = PDFLib.rgb(0,0,0);
+
+      var iva    = milesCOP(v("valorIva"));
+      var seccCod = codSeccional();
+      // En la página 1 el nombre va APELLIDOS primero; en la 2, en las casillas del
+      // solicitante, va NOMBRES primero. No es un descuido: así lo pide el formulario.
+      var nomApe = [v("nom1"),v("nom2"),v("ape1"),v("ape2")].filter(Boolean).join(" ").replace(/\s+/g," ").toUpperCase();
+      var apeNom = [v("ape1"),v("ape2"),v("nom1"),v("nom2")].filter(Boolean).join(" ").replace(/\s+/g," ").toUpperCase();
+
+      // Coordenadas: x, y medida desde ARRIBA, texto. El tipo de documento es 31 (NIT),
+      // que es el que corresponde aunque seas persona natural: el RUT asigna NIT a todos.
+      var P1 = [
+        [28,172,"31"], [66,172,v("ident")], [181,172,v("dv")],
+        [198,172,may("ape1")], [302,172,may("ape2")], [410,172,may("nom1")], [510,172,may("nom2")],
+        [28,220,v("seccional")], [318,220,seccCod], [344,220,v("correo")],
+        [28,244,v("direccion")], [510,244,v("telefono")],
+        [28,268,v("pais")], [198,268,"169"], [224,268,v("depto")], [389,268,v("deptoCod")],
+        [414,268,v("ciudad")], [575,268,v("ciudadCod")],
+        [28,328,"Giro cuenta"], [314,328,v("banco")],
+        [28,352,v("cuenta")], [200,352,v("tipoCuenta")], [28,376,"A solicitud de parte"]
+      ];
+      var P2 = [
+        [28,172,"31"], [66,172,v("ident")], [181,172,v("dv")],
+        [198,172,may("ape1")], [302,172,may("ape2")], [410,172,may("nom1")], [510,172,may("nom2")],
+        [28,220,v("seccional")], [318,220,seccCod],
+        [266,268,v("dv")], [290,364,v("dv")],
+        [28,268,"NIT"], [135,268,"31"], [158,268,v("ident")], [282,268,nomApe],
+        [28,292,iva], [158,292,"UPME"],
+        [44,316,"IVA"], [200,316,"175"], [226,316,v("anioGrav")], [270,316,"1"],
+        [456,314,v("factura")],
+        [400,340,parteFecha(0)], [434,340,parteFecha(1)], [454,340,parteFecha(2)], [472,340,iva],
+        [44,364,"NIT"], [147,364,"31"], [172,364,v("ident")], [310,364,nomApe]
+      ];
+      function pinta(pg, arr){
+        arr.forEach(function(f){
+          var t = sinTildes(f[2]); if(!t) return;
+          pg.drawText(t, { x:f[0], y:792-f[1]-18, size:(f[3]||8), font:font, color:col });
+        });
+      }
+      pinta(pgs[0], P1); pinta(pgs[1], P2);
+
+      // Casilla 2 (concepto): un "3" centrado. Va suelto porque no pertenece a ninguna fila.
+      var anchoTres = font.widthOfTextAtSize("3", 9);
+      pgs[0].drawText("3", { x:87.6-anchoTres/2, y:792-71.25, size:9, font:font, color:col });
+
+      // Bloque de firma, casillas 1001 a 1004: quien suscribe es el propio solicitante.
+      [[102,145,apeNom],[72,134,"31"],[172,134,v("ident")],[296,134,v("dv")]].forEach(function(f){
+        var t = sinTildes(f[2]); if(t) pgs[0].drawText(t, { x:f[0], y:f[1], size:7, font:font, color:col });
+      });
+
+      var bytes = await doc.save();
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([bytes], {type:"application/pdf"}));
+      a.download = "010_" + (soloNum(v("ident")) || "solicitud") + ".pdf";
+      a.click();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+      msg("Listo. Revisa el PDF antes de firmarlo.");
+    }catch(e){
+      msg("No se pudo generar: " + e.message, true);
+    }
+  });
+
+  cargar();
+})();
+</script>

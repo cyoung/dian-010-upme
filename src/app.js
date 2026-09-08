@@ -229,7 +229,7 @@
       if (noteEl) noteEl.textContent = "";
     } else if (seccional) {
       emailEl.textContent = "(consulte el buzón de la Dirección Seccional correspondiente)";
-      if (noteEl) noteEl.textContent = "La Dirección Seccional Delegada seleccionada no tiene buzón propio; envíelo al buzón de la seccional principal.";
+      if (noteEl) noteEl.textContent = "No hay buzón publicado para esta Dirección Seccional; consulte el listado de buzones de la DIAN antes de radicar.";
     } else {
       emailEl.textContent = "(seleccione una Dirección Seccional)";
       if (noteEl) noteEl.textContent = "";

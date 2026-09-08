@@ -8,79 +8,96 @@
   const CHECKBOX_FIELDS = new Set(["85"]);
 
   // Code-list options for select fields. Empty first entry = blank.
+  // Casilla 20 / 45 / 60 / 1002 — "TIPOS DE DOCUMENTO" table, DIAN 010
+  // instructions p. 4 (identical tables on pp. 7-8 for casillas 60 and 79).
   const TIPO_DOC = [
     ["", "-- seleccione --"],
-    ["11", "11 — Registro civil"],
+    ["11", "11 — Registro civil de nacimiento"],
     ["12", "12 — Tarjeta de identidad"],
     ["13", "13 — Cédula de ciudadanía"],
-    ["21", "21 — Tarjeta de extranjería"],
+    ["14", "14 — Certificado Registraduría sin identificación"],
     ["22", "22 — Cédula de extranjería"],
     ["31", "31 — NIT"],
+    ["33", "33 — Identificación extranjeros diferente a NIT asignado DIAN"],
     ["41", "41 — Pasaporte"],
-    ["42", "42 — Doc. identif. extranjero"],
-    ["43", "43 — Sin identif. extranjero"],
-    ["46", "46 — Carné diplomático"],
-    ["47", "47 — Salvoconducto"],
+    ["42", "42 — Documento de identificación extranjero"],
+    ["43", "43 — Sin identificación del exterior o para uso definido DIAN"],
+    ["48", "48 — Permiso por Protección Temporal - PPT"],
+    ["61", "61 — Patrimonio autónomo"],
   ];
+  // Casilla 2 — "CONCEPTO DEVOLUCIÓN" table, DIAN 010 instructions p. 4.
   const CONCEPTO = [
     ["", "-- seleccione --"],
-    ["1",  "1 — Saldo a favor"],
-    ["2",  "2 — Pago en exceso"],
-    ["6",  "6 — Pago de lo no debido"],
-    ["7",  "7 — IVA Educación"],
-    ["8",  "8 — IVA Diplomáticos"],
-    ["11", "11 — VIS"],
-    ["15", "15 — Retención reorganización"],
+    ["1", "1 — Saldos a favor"],
+    ["2", "2 — Pago en exceso"],
+    ["3", "3 — Pago de lo no debido"],
+    ["4", "4 — Retención renta: acuerdo de reestructuración o concordatario"],
+    ["5", "5 — Retención renta en exceso: dividendos y participaciones"],
+    ["6", "6 — IVA pagado en materiales de construcción"],
+    ["7", "7 — IVA e INC diplomáticos, organismos internacionales y misiones"],
+    ["8", "8 — IVA pagado por instituciones estatales de educación superior"],
   ];
   const TIPO_CUENTA = [
     ["", "-- seleccione --"],
     ["AHORROS",  "Ahorros"],
     ["CORRIENTE","Corriente"],
-    ["TARJETA",  "Tarjeta de crédito internacional"],
-  ];
+  ];  // casilla 43: "ahorro o corriente" only (DIAN 010 instructions p. 5)
   const TIPO_SOLICITUD = [
     ["", "-- seleccione --"],
     ["A solicitud de parte", "A solicitud de parte"],
     ["De oficio",            "De oficio"],
   ];
-  // Dirección Seccional — extracted from the 010 instructions PDF.
+  // Dirección Seccional — casilla 12. Mirrors the "CASILLA 12 - DIRECCIONES
+  // SECCIONALES" table in the current DIAN 010 instructions (pp. 4-5 of
+  // 010-fillable.pdf), sorted alphabetically for the dropdown.
+  // Entry = [value written to the PDF, label shown in the UI, DIAN code].
   // Value = short form that fits the PDF cell; label = full DIAN name.
-  const SECCIONAL = [
-    ["", "-- seleccione --"],
-    ["Impuestos y Aduanas de Armenia",          "Dirección Seccional de Impuestos y Aduanas de Armenia"],
-    ["Impuestos de Barranquilla",                "Dirección Seccional de Impuestos de Barranquilla"],
-    ["Impuestos de Bogotá",                      "Dirección Seccional de Impuestos de Bogotá"],
-    ["Impuestos y Aduanas de Bucaramanga",       "Dirección Seccional de Impuestos y Aduanas de Bucaramanga"],
-    ["Impuestos y Aduanas de Buenaventura",      "Dirección Seccional de Impuestos y Aduanas de Buenaventura"],
-    ["Impuestos de Cali",                        "Dirección Seccional de Impuestos de Cali"],
-    ["Impuestos de Cartagena",                   "Dirección Seccional de Impuestos de Cartagena"],
-    ["Impuestos de Cúcuta",                      "Dirección Seccional de Impuestos de Cúcuta"],
-    ["Impuestos y Aduanas de Arauca",            "Dirección Seccional de Impuestos y Aduanas de Arauca"],
-    ["Impuestos y Aduanas de Barrancabermeja",   "Dirección Seccional de Impuestos y Aduanas de Barrancabermeja"],
-    ["Impuestos y Aduanas de Florencia",         "Dirección Seccional de Impuestos y Aduanas de Florencia"],
-    ["Impuestos y Aduanas de Girardot",          "Dirección Seccional de Impuestos y Aduanas de Girardot"],
-    ["Impuestos y Aduanas de Ibagué",            "Dirección Seccional de Impuestos y Aduanas de Ibagué"],
-    ["Impuestos y Aduanas de Leticia",           "Dirección Seccional de Impuestos y Aduanas de Leticia"],
-    ["Impuestos y Aduanas de Manizales",         "Dirección Seccional de Impuestos y Aduanas de Manizales"],
-    ["Impuestos de Medellín",                    "Dirección Seccional de Impuestos de Medellín"],
-    ["Impuestos y Aduanas de Montería",          "Dirección Seccional de Impuestos y Aduanas de Montería"],
-    ["Impuestos y Aduanas de Neiva",             "Dirección Seccional de Impuestos y Aduanas de Neiva"],
-    ["Impuestos y Aduanas de Palmira",           "Dirección Seccional de Impuestos y Aduanas de Palmira"],
-    ["Impuestos y Aduanas de Pasto",             "Dirección Seccional de Impuestos y Aduanas de Pasto"],
-    ["Impuestos y Aduanas de Pereira",           "Dirección Seccional de Impuestos y Aduanas de Pereira"],
-    ["Impuestos y Aduanas de Popayán",           "Dirección Seccional de Impuestos y Aduanas de Popayán"],
-    ["Impuestos y Aduanas de Quibdó",            "Dirección Seccional de Impuestos y Aduanas de Quibdó"],
-    ["Impuestos y Aduanas de Riohacha",          "Dirección Seccional de Impuestos y Aduanas de Riohacha"],
-    ["Impuestos y Aduanas de San Andrés",        "Dirección Seccional de Impuestos y Aduanas de San Andrés"],
-    ["Impuestos y Aduanas de Santa Marta",       "Dirección Seccional de Impuestos y Aduanas de Santa Marta"],
-    ["Impuestos y Aduanas de Sincelejo",         "Dirección Seccional de Impuestos y Aduanas de Sincelejo"],
-    ["Impuestos y Aduanas de Sogamoso",          "Dirección Seccional de Impuestos y Aduanas de Sogamoso"],
-    ["Impuestos y Aduanas de Tuluá",             "Dirección Seccional de Impuestos y Aduanas de Tuluá"],
-    ["Impuestos y Aduanas de Tunja",             "Dirección Seccional de Impuestos y Aduanas de Tunja"],
-    ["Impuestos y Aduanas de Valledupar",        "Dirección Seccional de Impuestos y Aduanas de Valledupar"],
-    ["Impuestos y Aduanas de Villavicencio",     "Dirección Seccional de Impuestos y Aduanas de Villavicencio"],
-    ["Impuestos y Aduanas de Yopal",             "Dirección Seccional de Impuestos y Aduanas de Yopal"],
-    ["Impuestos de Grandes Contribuyentes",      "Dirección Seccional de Impuestos de Grandes Contribuyentes"],
+  const SECCIONAL_TABLE = [
+    ["Impuestos y Aduanas de Arauca",            "Dirección Seccional de Impuestos y Aduanas de Arauca",          "34"],
+    ["Impuestos y Aduanas de Armenia",           "Dirección Seccional de Impuestos y Aduanas de Armenia",         "1"],
+    ["Impuestos y Aduanas de Barrancabermeja",   "Dirección Seccional de Impuestos y Aduanas de Barrancabermeja", "29"],
+    ["Impuestos de Barranquilla",                "Dirección Seccional de Impuestos de Barranquilla",              "2"],
+    ["Impuestos de Bogotá",                      "Dirección Seccional de Impuestos de Bogotá",                    "32"],
+    ["Impuestos y Aduanas de Bucaramanga",       "Dirección Seccional de Impuestos y Aduanas de Bucaramanga",     "4"],
+    ["Impuestos y Aduanas de Buenaventura",      "Dirección Seccional de Impuestos y Aduanas de Buenaventura",    "35"],
+    ["Impuestos de Cali",                        "Dirección Seccional de Impuestos de Cali",                      "5"],
+    ["Impuestos de Cartagena",                   "Dirección Seccional de Impuestos de Cartagena",                 "6"],
+    ["Impuestos de Cúcuta",                      "Dirección Seccional de Impuestos de Cúcuta",                    "7"],
+    ["Impuestos y Aduanas de Florencia",         "Dirección Seccional de Impuestos y Aduanas de Florencia",       "28"],
+    ["Impuestos y Aduanas de Girardot",          "Dirección Seccional de Impuestos y Aduanas de Girardot",        "8"],
+    ["Operativa de Grandes Contribuyentes",      "Dirección Operativa de Grandes Contribuyentes",                 "31"],
+    ["Impuestos y Aduanas de Ibagué",            "Dirección Seccional de Impuestos y Aduanas de Ibagué",          "9"],
+    ["Impuestos y Aduanas de Leticia",           "Dirección Seccional de Impuestos y Aduanas de Leticia",         "38"],
+    ["Impuestos y Aduanas de Manizales",         "Dirección Seccional de Impuestos y Aduanas de Manizales",       "10"],
+    ["Impuestos de Medellín",                    "Dirección Seccional de Impuestos de Medellín",                  "11"],
+    ["Impuestos y Aduanas de Montería",          "Dirección Seccional de Impuestos y Aduanas de Montería",        "12"],
+    ["Impuestos y Aduanas de Neiva",             "Dirección Seccional de Impuestos y Aduanas de Neiva",           "13"],
+    ["Impuestos y Aduanas de Palmira",           "Dirección Seccional de Impuestos y Aduanas de Palmira",         "15"],
+    ["Impuestos y Aduanas de Pasto",             "Dirección Seccional de Impuestos y Aduanas de Pasto",           "14"],
+    ["Impuestos y Aduanas de Pereira",           "Dirección Seccional de Impuestos y Aduanas de Pereira",         "16"],
+    ["Impuestos y Aduanas de Popayán",           "Dirección Seccional de Impuestos y Aduanas de Popayán",         "17"],
+    ["Impuestos y Aduanas de Puerto Asís",       "Dirección Seccional de Impuestos y Aduanas de Puerto Asís",     "46"],
+    ["Impuestos y Aduanas de Quibdó",            "Dirección Seccional de Impuestos y Aduanas de Quibdó",          "18"],
+    ["Impuestos y Aduanas de Riohacha",          "Dirección Seccional de Impuestos y Aduanas de Riohacha",        "25"],
+    ["Impuestos y Aduanas de San Andrés",        "Dirección Seccional de Impuestos y Aduanas de San Andrés",      "27"],
+    ["Impuestos y Aduanas de Santa Marta",       "Dirección Seccional de Impuestos y Aduanas de Santa Marta",     "19"],
+    ["Impuestos y Aduanas de Sincelejo",         "Dirección Seccional de Impuestos y Aduanas de Sincelejo",       "23"],
+    ["Impuestos y Aduanas de Sogamoso",          "Dirección Seccional de Impuestos y Aduanas de Sogamoso",        "26"],
+    ["Impuestos y Aduanas de Tuluá",             "Dirección Seccional de Impuestos y Aduanas de Tuluá",           "21"],
+    ["Impuestos y Aduanas de Tunja",             "Dirección Seccional de Impuestos y Aduanas de Tunja",           "20"],
+    ["Impuestos y Aduanas de Valledupar",        "Dirección Seccional de Impuestos y Aduanas de Valledupar",      "24"],
+    ["Impuestos y Aduanas de Villavicencio",     "Dirección Seccional de Impuestos y Aduanas de Villavicencio",   "22"],
+    ["Impuestos y Aduanas de Yopal",             "Dirección Seccional de Impuestos y Aduanas de Yopal",           "44"],
+  ];
+  // Dropdown options ([value, label]) and value -> DIAN code lookup.
+  const SECCIONAL = [["", "-- seleccione --"], ...SECCIONAL_TABLE.map(([v, l]) => [v, l])];
+  const SECCIONAL_CODES = Object.fromEntries(SECCIONAL_TABLE.map(([v, , c]) => [v, c]));
+
+  // Direcciones Seccionales Delegadas that appeared in the OLD 010 instructions
+  // but are absent from the current casilla 12 table. Kept for reference only;
+  // NOT offered in the dropdown. If an applicant's RUT names one of these, the
+  // competent (parent) seccional is unresolved — see docs/open-questions.md.
+  const SECCIONAL_DELEGADAS_ORPHANED = [
     ["Delegada de Tumaco",                       "Dirección Seccional Delegada de Tumaco"],
     ["Delegada de Pamplona",                     "Dirección Seccional Delegada de Pamplona"],
     ["Delegada de San José del Guaviare",        "Dirección Seccional Delegada de San José del Guaviare"],
@@ -92,8 +109,8 @@
   // Source: dian.gov.co/Prensa/Documents/Buzones_recepcion_solicitudes_devolucion_manual.pdf
   // Bogotá has two buzones (naturales / jurídicas); for UPME EV refunds the
   // applicant is typically a natural person, so we use the naturales buzón.
-  // The 6 "Delegadas" don't have their own buzón — they're handled by the
-  // parent seccional, so they're omitted (UI shows a fallback note).
+  // Puerto Asís (new in the current DIAN table) has no published buzón yet,
+  // so it is omitted (UI shows a fallback note).
   const SECCIONAL_EMAILS = {
     "Impuestos y Aduanas de Armenia":          "dsia_armenia_devoluciones@dian.gov.co",
     "Impuestos de Barranquilla":                "dsi_barranquilla_devoluciones@dian.gov.co",
@@ -128,7 +145,7 @@
     "Impuestos y Aduanas de Valledupar":        "dsia_valledupar_devoluciones@dian.gov.co",
     "Impuestos y Aduanas de Villavicencio":     "dsia_villavicencio_devoluciones@dian.gov.co",
     "Impuestos y Aduanas de Yopal":             "dsia_yopal_devoluciones@dian.gov.co",
-    "Impuestos de Grandes Contribuyentes":      "dsi_grandesc_devoluciones@dian.gov.co",
+    "Operativa de Grandes Contribuyentes":      "dsi_grandesc_devoluciones@dian.gov.co",
   };
 
   // ---------------------------------------------------------------------------
@@ -193,12 +210,17 @@
         id: "pago",
         title: "Formas de pago",
         fields: [
+          // Derived from casilla 49: "TIDIS" above 1.000 UVT, else "Giro cuenta"
+          // (DIAN 010 instructions, casilla 40). Resolved at runtime via the
+          // helper exported by upme-defaults.js.
+          { key: "40", label: "40. Descripción forma de pago", type: "text",
+            derived: (s) => (window.UPME_FORMA_PAGO ? window.UPME_FORMA_PAGO(s["49"]) : ""),
+            note: "Giro cuenta hasta 1.000 UVT; TIDIS por encima. Se calcula con el valor de la casilla 49." },
           { key: "41", label: "41. Entidad financiera o bancaria", type: "text" },
           { key: "42", label: "42. Número de cuenta", type: "text" },
           { key: "43", label: "43. Tipo de cuenta", type: "select", options: TIPO_CUENTA },
           { key: "44", label: "44. Tipo de solicitud", type: "select", options: TIPO_SOLICITUD },
           { key: "85", label: "85. ¿Con garantía?", type: "checkbox", hidden: true },
-          { key: "40",     label: "40. Descripción forma de pago", type: "text", hidden: true },
           { key: "40_cod", label: "Cód. (40)", type: "text", short: true, hidden: true },
           { key: "41_cod", label: "Cód. (41)", type: "text", short: true, hidden: true },
           { key: "43_cod", label: "Cód. (43)", type: "text", short: true, hidden: true },
@@ -258,15 +280,16 @@
         { key: `51_${n}_cod`, label: "Cód. (51)", type: "text", short: true, hidden: true },
         { key: `52_${n}`,     label: "52. Año gravable", type: "text", short: true,
           derived: (s) => s[`58_${n}_yyyy`] || "" },
-        // Período: static "1" for persona natural (set via UPME_DEFAULTS,
-        // not presented to the user). Per DIAN guidance (Daniel Páez / DIAN
-        // training official), it's fixed, not derived from the invoice month.
+        // Período: fixed "1" (set via UPME_DEFAULTS, not presented to the
+        // user). DIAN 010 instructions, annex p. 14 (UPME row): "Para el
+        // campo periodo registre 1".
         { key: `53_${n}`,     label: "53. Período", type: "text", short: true, hidden: true },
         { key: `54_${n}`,     label: "54. No. documento o acto administrativo", type: "text", hidden: true },
         { key: `55_${n}`,     label: "55. Número de factura de compra", type: "text" },
         { key: `56_${n}`,     label: "56. Descripción documento de reconocimiento", type: "text", hidden: true },
         { key: `56_${n}_cod`, label: "Cód. (56)", type: "text", short: true, hidden: true },
-        { key: `57_${n}`,     label: "57. Nombre del documento de reconocimiento", type: "text" },
+        // 56 and 57 are "Casilla no diligenciable" for the UPME row (annex p. 14).
+        { key: `57_${n}`,     label: "57. Nombre del documento de reconocimiento", type: "text", hidden: true },
         { key: `57_${n}_cod`, label: "Cód. (57)", type: "text", short: true, hidden: true },
         { key: `58_${n}`,     label: "58. Fecha de factura de compra", type: "date_mdy" },
         { key: `59_${n}`,     label: "59. Valor solicitado por origen $", type: "text",
@@ -440,4 +463,6 @@
   global.HEADER_FIELDS = HEADER_FIELDS;
   global.CHECKBOX_FIELDS = CHECKBOX_FIELDS;
   global.SECCIONAL_EMAILS = SECCIONAL_EMAILS;
+  global.SECCIONAL_CODES = SECCIONAL_CODES;
+  global.SECCIONAL_DELEGADAS_ORPHANED = SECCIONAL_DELEGADAS_ORPHANED;
 })(window);
