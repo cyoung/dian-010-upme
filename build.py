@@ -53,7 +53,9 @@ def main() -> None:
         SRC / "upme-defaults.js",
         SRC / "pdf-010.js",
         SRC / "pdf-declaracion.js",
+        SRC / "signature.js",
         VENDOR / "pdf-lib.min.js",
+        VENDOR / "signature_pad.umd.min.js",
         TEMPLATE_PDF,
         FIRMA_IMG,
     ]:
@@ -65,11 +67,13 @@ def main() -> None:
     replacements = {
         "/*__STYLES__*/":            read(SRC / "styles.css"),
         "/*__PDFLIB__*/":            read(VENDOR / "pdf-lib.min.js"),
+        "/*__SIGNATURE_PAD__*/":     read(VENDOR / "signature_pad.umd.min.js"),
         "/*__EMBEDDED_010__*/":      embedded_010_js(),
         "/*__FIELDS_MODEL__*/":      read(SRC / "fields-model.js"),
         "/*__UPME_DEFAULTS__*/":     read(SRC / "upme-defaults.js"),
         "/*__PDF_010__*/":           read(SRC / "pdf-010.js"),
         "/*__PDF_DECLARACION__*/":   read(SRC / "pdf-declaracion.js"),
+        "/*__SIGNATURE__*/":         read(SRC / "signature.js"),
         "/*__APP__*/":               read(SRC / "app.js"),
         "/*__FIRMA_IMG_DATA_URI__*/": firma_img_data_uri(),
     }

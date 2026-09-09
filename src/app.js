@@ -181,7 +181,15 @@
     });
     refreshSeccionalEmail();
     refreshAppointmentStep();
+    refreshSignatureStep();
     refreshDvValidation();
+  }
+  function refreshSignatureStep() {
+    const signed = !!state["firma_png"];
+    const byHand = document.getElementById("sign-by-hand-step");
+    const digital = document.getElementById("signed-digitally-step");
+    if (byHand) byHand.hidden = signed;
+    if (digital) digital.hidden = !signed;
   }
   function refreshDvValidation() {
     const dvInput = document.getElementById("fld-6");
@@ -306,6 +314,7 @@
   }
   function renderField(f, opts) {
     opts = opts || {};
+    if (f.type === "signature") return renderSignatureField(f);
     const hasDefault = Object.prototype.hasOwnProperty.call(UPME_DEFAULTS, f.key);
     const isDerived = typeof f.derived === "function";
     const locked = opts.sectionLocked || hasDefault || isDerived;
@@ -436,6 +445,34 @@
 
     wrap.appendChild(lab);
     wrap.appendChild(input);
+    if (f.note) {
+      const note = document.createElement("p");
+      note.className = "field-note";
+      note.textContent = f.note;
+      wrap.appendChild(note);
+    }
+    return wrap;
+  }
+
+  // Drawing pad whose value is a trimmed PNG data URL (see signature.js).
+  // Never derived or defaulted, so it bypasses the generic lock logic.
+  function renderSignatureField(f) {
+    const wrap = document.createElement("div");
+    wrap.className = "field full signature";
+    const lab = document.createElement("label");
+    lab.textContent = f.label;
+    wrap.appendChild(lab);
+    const widget = window.createSignatureField
+      ? window.createSignatureField({
+          initialDataUrl: state[f.key] || "",
+          onChange(dataUrl) {
+            if (dataUrl) state[f.key] = dataUrl;
+            else delete state[f.key];
+            saveState();
+          },
+        })
+      : document.createTextNode("(componente de firma no disponible)");
+    wrap.appendChild(widget);
     if (f.note) {
       const note = document.createElement("p");
       note.className = "field-note";

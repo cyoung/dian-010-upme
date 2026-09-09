@@ -240,6 +240,10 @@
             derived: (s) => s["6"] || "" },
           { key: "1005", label: "1005. Cód. representación", type: "text", short: true },
           { key: "1006", label: "1006. Organización", type: "text", hidden: true },
+          // Drawn signature (PNG data URL). Embedded into the 010 signature box
+          // and onto the Declaración's "Firma" line; blank = sign by hand.
+          { key: "firma_png", label: "Firma de quien suscribe el documento", type: "signature",
+            note: "Se insertará en la casilla de firma del 010 y sobre la línea «Firma» de la Declaración. Déjela vacía si prefiere firmar a mano." },
         ],
       },
       {

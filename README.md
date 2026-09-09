@@ -7,6 +7,8 @@ certificados por la UPME. Genera, sin enviar datos a ningún servidor:
 - **Formulario 010 lleno** (PDF) — listo para imprimir y firmar.
 - **Declaración Juramentada** (PDF) — construida desde cero según el modelo
   CONCEPTO-000673-int-0063 de UPME / DIAN.
+- **Firma dibujada** (opcional) — se traza en la página y se inserta en la
+  casilla de firma del 010 y sobre la línea «Firma» de la Declaración.
 
 El sitio se publica como página estática vía **GitHub Pages**:
 <https://cyoung.github.io/dian-010-upme/>
@@ -34,9 +36,11 @@ descargarse y abrirse sin conexión.
 │   ├── fields-model.js             <- estructura del formulario
 │   ├── upme-defaults.js            <- valores fijos para solicitudes UPME
 │   ├── pdf-010.js                  <- llena el AcroForm del 010
-│   └── pdf-declaracion.js          <- dibuja la Declaración Juramentada
+│   ├── pdf-declaracion.js          <- dibuja la Declaración Juramentada
+│   └── signature.js                <- pad de firma (canvas) y recorte a PNG
 └── vendor/
-    └── pdf-lib.min.js              <- pdf-lib 1.17.1 (MIT)
+    ├── pdf-lib.min.js              <- pdf-lib 1.17.1 (MIT)
+    └── signature_pad.umd.min.js    <- signature_pad 5.1.4 (MIT)
 ```
 
 ## Build local
@@ -74,4 +78,5 @@ En GitHub: **Settings → Pages → Build and deployment**
 
 Código original © 2026 Christopher Young. La plantilla del Formulario 010
 es propiedad de la DIAN (Dirección de Impuestos y Aduanas Nacionales,
-Colombia).
+Colombia). Incluye [pdf-lib](https://pdf-lib.js.org/) y
+[signature_pad](https://github.com/szimek/signature_pad), ambos bajo licencia MIT.

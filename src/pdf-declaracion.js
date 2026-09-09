@@ -93,11 +93,24 @@
     drawPara(ctx,
       `En constancia, se firma en **${v.ciudadDomicilio}**, a los **${v.firmaDia}** días del mes de ` +
       `**${v.firmaMes}** de **${v.firmaAnio}**.`);
-    gap(ctx, 30);
+    // Drawn signature (optional) sits on the "Firma:" line.
+    const SIG_H = 40;
+    const sigLine = "Firma: _______________________________";
+    const sig = state.firma_png ? await pdfDoc.embedPng(state.firma_png) : null;
+    gap(ctx, sig ? 14 : 30);
 
     // Keep the signature line + identity block together on one page.
-    ensureSpace(ctx, ctx.lineHeight * 7);
-    drawText(ctx, "Firma: _______________________________");
+    ensureSpace(ctx, ctx.lineHeight * 7 + (sig ? SIG_H : 0));
+    if (sig) {
+      ctx.y -= SIG_H;
+      const x0 = ctx.marginX + font.widthOfTextAtSize("Firma: ", ctx.size);
+      const maxW = font.widthOfTextAtSize(sigLine, ctx.size) - (x0 - ctx.marginX);
+      const s = Math.min(maxW / sig.width, SIG_H / sig.height);
+      const w = sig.width * s, h = sig.height * s;
+      // Bottom edge 3pt above the baseline of the line drawn next.
+      ctx.page.drawImage(sig, { x: x0, y: ctx.y - ctx.size + 3, width: w, height: h });
+    }
+    drawText(ctx, sigLine);
     gap(ctx, 14);
     drawPara(ctx, `**${v.nombre}**`);
     drawPara(ctx, `**${v.tipoDocAbrev}** No. **${v.cedula}** de **${v.ciudadExpedicion}**`);

@@ -31,7 +31,8 @@
     <h2 id="instr-title">Pasos siguientes</h2>
     <ol>
       <li>Imprime ambos PDFs.</li>
-      <li>Firma a mano: en la <em>Declaración Juramentada</em> sobre la línea de "Firma", y en la <span class="hover-img" tabindex="0">casilla de firma del Formulario 010<img class="hover-img-preview" src="/*__FIRMA_IMG_DATA_URI__*/" alt="Ubicación de la casilla de firma en el Formulario 010 (página 1, sección «Firma de quien suscribe el documento»)"></span>.</li>
+      <li id="sign-by-hand-step">Firma a mano: en la <em>Declaración Juramentada</em> sobre la línea de "Firma", y en la <span class="hover-img" tabindex="0">casilla de firma del Formulario 010<img class="hover-img-preview" src="/*__FIRMA_IMG_DATA_URI__*/" alt="Ubicación de la casilla de firma en el Formulario 010 (página 1, sección «Firma de quien suscribe el documento»)"></span>.</li>
+      <li id="signed-digitally-step" hidden>Los PDFs ya incluyen la firma dibujada: comprueba que aparezca en la casilla de firma del Formulario 010 y sobre la línea «Firma» de la <em>Declaración Juramentada</em>. Si prefieres firmar a mano, borra la firma en <em>Página 1 → Quien suscribe el documento</em>.</li>
       <li>Escanea ambos documentos firmados en formato PDF.</li>
       <li>Adjunta los escaneos junto con: certificado UPME, factura electrónica, certificación bancaria y RUT.</li>
       <li id="appointment-step" hidden>
@@ -60,11 +61,13 @@
 </div>
 
 <script>/*__PDFLIB__*/</script>
+<script>/*__SIGNATURE_PAD__*/</script>
 <script>/*__EMBEDDED_010__*/</script>
 <script>/*__FIELDS_MODEL__*/</script>
 <script>/*__UPME_DEFAULTS__*/</script>
 <script>/*__PDF_010__*/</script>
 <script>/*__PDF_DECLARACION__*/</script>
+<script>/*__SIGNATURE__*/</script>
 <script>/*__APP__*/</script>
 </body>
 </html>

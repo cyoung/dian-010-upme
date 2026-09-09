@@ -3,6 +3,12 @@
 (function () {
   "use strict";
 
+  // Blank area of the "Firma de quien suscribe el documento" box on page 1
+  // (612×792 pt, origin bottom-left). Measured from the template: block top
+  // rule at y=216, header text down to y≈205, left bar to x≈24.5, column
+  // separator at x≈308.3, and the 1001 row starting at y≈152. Inset slightly.
+  const FIRMA_BOX_010 = { x: 30, y: 156, w: 272, h: 47 };
+
   async function fillForm010(state) {
     const { PDFDocument } = window.PDFLib;
     const templateBytes = window.EMBEDDED_010_BYTES;
@@ -50,6 +56,7 @@
     let setCount = 0;
     for (const [key, rawValue] of Object.entries(merged)) {
       if (key.startsWith("dj_")) continue;                      // Declaración-only
+      if (key === "firma_png") continue;                        // image, drawn below
       if (rawValue === "" || rawValue == null) continue;
       const widget = "f_" + key;
 
@@ -73,6 +80,20 @@
     // Flatten — no AcroForm in output. Matches `fill_form.py --flatten`
     // semantics (the appearance streams from setText are baked in).
     form.flatten();
+
+    // Drawn signature: fit into the signature box, preserving aspect ratio.
+    if (state.firma_png) {
+      const png = await pdfDoc.embedPng(state.firma_png);
+      const b = FIRMA_BOX_010;
+      const s = Math.min(b.w / png.width, b.h / png.height);
+      const w = png.width * s, h = png.height * s;
+      pdfDoc.getPages()[0].drawImage(png, {
+        x: b.x + (b.w - w) / 2,
+        y: b.y + (b.h - h) / 2,
+        width: w,
+        height: h,
+      });
+    }
 
     const out = await pdfDoc.save({ useObjectStreams: false });
     if (window.__DEBUG_010) console.log(`pdf-010: set ${setCount} widgets`);
