@@ -186,8 +186,8 @@
   }
   function refreshSignatureStep() {
     const signed = !!state["firma_png"];
-    const byHand = document.getElementById("sign-by-hand-step");
-    const digital = document.getElementById("signed-digitally-step");
+    const byHand = document.getElementById("sign-step-unsigned");
+    const digital = document.getElementById("sign-step-signed");
     if (byHand) byHand.hidden = signed;
     if (digital) digital.hidden = !signed;
   }

@@ -4,11 +4,12 @@ Herramienta web 100% del lado del cliente para preparar la solicitud de
 devolución del IVA pagado en la adquisición de vehículos eléctricos
 certificados por la UPME. Genera, sin enviar datos a ningún servidor:
 
-- **Formulario 010 lleno** (PDF) — listo para imprimir y firmar.
+- **Formulario 010 lleno** (PDF) — con la firma dibujada en la casilla de firma.
 - **Declaración Juramentada** (PDF) — construida desde cero según el modelo
   CONCEPTO-000673-int-0063 de UPME / DIAN.
-- **Firma dibujada** (opcional) — se traza en la página y se inserta en la
-  casilla de firma del 010 y sobre la línea «Firma» de la Declaración.
+- **Firma dibujada** — se traza en la página y se inserta en la casilla de
+  firma del 010 y sobre la línea «Firma» de la Declaración. Los PDFs se
+  autentican después en <https://firmaautenticaciondigital.and.gov.co/>.
 
 El sitio se publica como página estática vía **GitHub Pages**:
 <https://cyoung.github.io/dian-010-upme/>
