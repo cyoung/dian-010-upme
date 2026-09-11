@@ -849,9 +849,25 @@ if(__exports != exports)module.exports = exports;return module.exports}));
     // Build the set of widget names available in the PDF for safe mirroring.
     const widgetNames = new Set(form.getFields().map((f) => f.getName()));
 
+    // Sanitize text values before passing them to pdf-lib's WinAnsiEncoding.
+    // WinAnsi covers U+0000–U+00FF only; any codepoint above that range
+    // causes "WinAnsi cannot encode <char> (0x…)" at PDF-save time.
+    // Common typographic characters are mapped to their ASCII equivalents
+    // so that visible content is preserved; remaining out-of-range chars
+    // (invisible control characters such as U+202D Right-to-Left Override)
+    // are removed silently.
+    function toWinAnsiSafe(str) {
+      return String(str)
+        .replace(/[\u2018\u2019]/g, "'")   // curly single quotes → '
+        .replace(/[\u201C\u201D]/g, '"')   // curly double quotes → "
+        .replace(/[\u2013\u2014]/g, '-')   // en-dash / em-dash → -
+        .replace(/\u2026/g, '...')         // ellipsis → ...
+        .replace(/[^\u0000-\u00FF]/g, ''); // drop remaining non-WinAnsi chars
+    }
+
     function setText(widgetName, value) {
       if (!widgetNames.has(widgetName)) return;
-      try { form.getTextField(widgetName).setText(String(value)); }
+      try { form.getTextField(widgetName).setText(toWinAnsiSafe(value)); }
       catch (e) { /* not a text field — skip silently */ }
     }
     function setCheckbox(widgetName, value) {
